@@ -1,7 +1,5 @@
-
-
 import React, { useState, useEffect } from 'react';
-import { BrainCircuitIcon, LoaderIcon, GoogleIcon, MailIcon } from './icons';
+import { SchedulifyLogoIcon, LoaderIcon, GoogleIcon, MailIcon } from './icons';
 import { 
   setupRecaptchaVerifier, 
   signInWithPhoneNumber,
@@ -298,7 +296,7 @@ export const Auth: React.FC = () => {
         <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center p-4">
             <div className="max-w-md w-full mx-auto">
                 <div className="text-center mb-8">
-                    <BrainCircuitIcon className="mx-auto h-12 w-12 text-indigo-600" />
+                    <SchedulifyLogoIcon className="mx-auto h-16 w-16" />
                     <h1 className="text-4xl font-extrabold text-gray-900 mt-4">Welcome to Schedulify AI</h1>
                     <p className="mt-2 text-lg text-gray-600">Sign in to continue to your personal study planner.</p>
                 </div>
