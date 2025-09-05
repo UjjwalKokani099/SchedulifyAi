@@ -44,14 +44,14 @@ export const StudyWork: React.FC = () => {
     };
 
     return (
-        <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg max-w-4xl mx-auto h-full flex flex-col">
+        <div className="bg-white dark:bg-gray-800/50 p-6 sm:p-8 rounded-2xl shadow-lg max-w-4xl mx-auto h-full flex flex-col">
             <div className="flex items-center gap-4 mb-6">
-                 <div className="bg-indigo-100 p-3 rounded-full">
-                    <UploadCloudIcon className="w-8 h-8 text-indigo-600" />
+                 <div className="bg-indigo-100 dark:bg-indigo-900/50 p-3 rounded-full">
+                    <UploadCloudIcon className="w-8 h-8 text-indigo-600 dark:text-indigo-300" />
                 </div>
                 <div>
-                    <h2 className="text-3xl font-bold text-gray-900">My Study Work</h2>
-                    <p className="text-gray-600">Upload and manage your notes, assignments, and practice papers.</p>
+                    <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100">My Study Work</h2>
+                    <p className="text-gray-600 dark:text-gray-300">Upload and manage your notes, assignments, and practice papers.</p>
                 </div>
             </div>
             
@@ -60,11 +60,11 @@ export const StudyWork: React.FC = () => {
                 onDragLeave={handleDragLeave}
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
-                className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${isDragging ? 'border-indigo-500 bg-indigo-50' : 'border-gray-300 bg-gray-50'}`}
+                className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors ${isDragging ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-900/30' : 'border-gray-300 bg-gray-50 dark:border-gray-600 dark:bg-gray-900/50'}`}
             >
                 <UploadCloudIcon className="w-12 h-12 mx-auto text-gray-400 mb-4" />
-                <h3 className="font-semibold text-gray-800">Drag and drop your files here</h3>
-                <p className="text-gray-500 text-sm">or</p>
+                <h3 className="font-semibold text-gray-800 dark:text-gray-200">Drag and drop your files here</h3>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">or</p>
                 <button className="mt-2 px-4 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-md hover:bg-indigo-700">
                     Browse Files
                 </button>
@@ -72,18 +72,18 @@ export const StudyWork: React.FC = () => {
             </div>
 
             <div className="mt-8 flex-grow overflow-y-auto">
-                <h3 className="text-xl font-bold text-gray-800 mb-4">Your Files</h3>
+                <h3 className="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">Your Files</h3>
                 <ul className="space-y-3">
                     {files.map((file, index) => (
-                        <li key={index} className="flex items-center justify-between p-3 bg-gray-100 rounded-lg hover:bg-gray-200">
+                        <li key={index} className="flex items-center justify-between p-3 bg-gray-100 rounded-lg hover:bg-gray-200 dark:bg-gray-700/50 dark:hover:bg-gray-700">
                             <div className="flex items-center gap-3">
-                                <FileTextIcon className="w-6 h-6 text-indigo-600" />
+                                <FileTextIcon className="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
                                 <div>
-                                    <p className="font-medium text-gray-900">{file.name}</p>
-                                    <p className="text-sm text-gray-500">{file.size}</p>
+                                    <p className="font-medium text-gray-900 dark:text-gray-200">{file.name}</p>
+                                    <p className="text-sm text-gray-500 dark:text-gray-400">{file.size}</p>
                                 </div>
                             </div>
-                            <button className="text-xs text-red-500 hover:underline font-semibold">Delete</button>
+                            <button className="text-xs text-red-500 hover:underline font-semibold dark:text-red-400">Delete</button>
                         </li>
                     ))}
                 </ul>

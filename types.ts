@@ -1,3 +1,9 @@
+// Fix: Declare firebase globally for type definitions used in this file.
+declare const firebase: any;
+
+// Fix: Define the User type from the Firebase v8 SDK to resolve import errors.
+export type User = firebase.auth.User;
+
 // Fix: Added StudyGoal interface to define the structure of a user's study objectives.
 export interface StudyGoal {
   exam: string;

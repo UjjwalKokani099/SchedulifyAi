@@ -1,6 +1,6 @@
 import React from 'react';
-import type { User } from 'firebase/auth';
-import type { ScheduleItem, StudyGoal } from '../types';
+// Fix: Replaced direct import from 'firebase/auth' with the centralized User type from '../types'.
+import type { ScheduleItem, StudyGoal, User } from '../types';
 import { ScheduleView } from './ScheduleView';
 import { CustomReminders } from './CustomReminders';
 
@@ -15,7 +15,7 @@ export const PlannerView: React.FC<PlannerViewProps> = ({ schedule, goal, user, 
     return (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-full">
             <div className="lg:col-span-2 h-full">
-                <h1 className="text-3xl font-bold text-gray-800 mb-4">Weekly Planner</h1>
+                <h1 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-4">Weekly Planner</h1>
                 <ScheduleView schedule={schedule} goal={goal} onScheduleUpdate={onScheduleUpdate} />
             </div>
             <div className="h-full">

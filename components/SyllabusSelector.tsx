@@ -41,27 +41,27 @@ export const SyllabusSelector: React.FC<SyllabusSelectorProps> = ({ className, o
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl max-h-[90vh] flex flex-col">
-        <div className="p-6 border-b">
-          <h2 className="text-2xl font-bold text-gray-800">Select Syllabus Topics</h2>
-          <p className="text-gray-600">Choose the topics you want to focus on for {className}.</p>
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-3xl max-h-[90vh] flex flex-col">
+        <div className="p-6 border-b dark:border-gray-700">
+          <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Select Syllabus Topics</h2>
+          <p className="text-gray-600 dark:text-gray-400">Choose the topics you want to focus on for {className}.</p>
         </div>
         <div className="p-6 overflow-y-auto flex-grow">
           {Object.keys(currentSyllabus).length > 0 ? (
             <div className="space-y-6">
               {Object.entries(currentSyllabus).map(([subject, topics]) => (
                 <div key={subject}>
-                  <h3 className="text-lg font-semibold text-indigo-700 mb-3">{subject}</h3>
+                  <h3 className="text-lg font-semibold text-indigo-700 dark:text-indigo-400 mb-3">{subject}</h3>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                     {topics.map(topic => (
-                      <label key={topic} className="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
+                      <label key={topic} className="flex items-center space-x-3 p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
                         <input
                           type="checkbox"
                           checked={selectedTopics.includes(topic)}
                           onChange={() => handleToggleTopic(topic)}
-                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
+                          className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 dark:bg-gray-600 dark:border-gray-500"
                         />
-                        <span className="text-sm text-gray-700">{topic}</span>
+                        <span className="text-sm text-gray-700 dark:text-gray-300">{topic}</span>
                       </label>
                     ))}
                   </div>
@@ -69,14 +69,14 @@ export const SyllabusSelector: React.FC<SyllabusSelectorProps> = ({ className, o
               ))}
             </div>
           ) : (
-            <p className="text-center text-gray-500">No specific syllabus found for the selected class. You can manually enter topics in the previous screen.</p>
+            <p className="text-center text-gray-500 dark:text-gray-400">No specific syllabus found for the selected class. You can manually enter topics in the previous screen.</p>
           )}
         </div>
-        <div className="p-4 bg-gray-50 border-t rounded-b-2xl flex justify-end items-center gap-4">
-            <span className="text-sm text-gray-600">{selectedTopics.length} topics selected</span>
+        <div className="p-4 bg-gray-50 dark:bg-gray-900 border-t dark:border-gray-700 rounded-b-2xl flex justify-end items-center gap-4">
+            <span className="text-sm text-gray-600 dark:text-gray-400">{selectedTopics.length} topics selected</span>
             <button
                 onClick={onClose}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50"
+                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600"
             >
                 Cancel
             </button>

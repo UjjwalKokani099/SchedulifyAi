@@ -12,10 +12,10 @@ const CATEGORIES: { name: string, type: BreakActivityType }[] = [
 
 const MindfulnessRenderer = ({ activity }: { activity: MindfulnessActivity }) => (
     <div className="text-left">
-        <h3 className="text-xl font-bold text-indigo-800 mb-4 text-center">{activity.title}</h3>
+        <h3 className="text-xl font-bold text-indigo-800 dark:text-indigo-300 mb-4 text-center">{activity.title}</h3>
         <div className="flex flex-col sm:flex-row items-center gap-6">
             <div className="w-24 h-24 rounded-full bg-indigo-100 flex-shrink-0 animate-pulse-slow"></div>
-            <ol className="list-decimal list-inside space-y-2 text-gray-700">
+            <ol className="list-decimal list-inside space-y-2 text-gray-700 dark:text-gray-300">
                 {activity.steps.map((step, i) => <li key={i}>{step}</li>)}
             </ol>
         </div>
@@ -42,12 +42,12 @@ const PuzzleRenderer = ({ activity }: { activity: PuzzleActivity }) => {
 
     return (
         <div className="text-center">
-            <h3 className="text-xl font-bold text-indigo-800 mb-2">{activity.title}</h3>
-            <p className="text-4xl font-bold tracking-widest my-4 text-gray-800">{activity.jumbledWord}</p>
-            <p className="text-sm text-gray-600 italic mb-4">Hint: {activity.hint}</p>
+            <h3 className="text-xl font-bold text-indigo-800 dark:text-indigo-300 mb-2">{activity.title}</h3>
+            <p className="text-4xl font-bold tracking-widest my-4 text-gray-800 dark:text-gray-200">{activity.jumbledWord}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400 italic mb-4">Hint: {activity.hint}</p>
 
             {isDone ? (
-                <div className="p-4 bg-green-100 text-green-800 rounded-lg">
+                <div className="p-4 bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300 rounded-lg">
                     <p className="font-bold">Correct! The answer is: {activity.answer}</p>
                 </div>
             ) : (
@@ -57,7 +57,7 @@ const PuzzleRenderer = ({ activity }: { activity: PuzzleActivity }) => {
                         value={guess}
                         onChange={(e) => setGuess(e.target.value)}
                         placeholder="Your answer"
-                        className={`block w-full sm:w-auto flex-grow px-3 py-2 bg-white border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 ${result === 'incorrect' ? 'border-red-500 animate-shake' : 'border-gray-300'}`}
+                        className={`block w-full sm:w-auto flex-grow px-3 py-2 bg-white border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-900 dark:text-white dark:border-gray-600 ${result === 'incorrect' ? 'border-red-500 animate-shake' : 'border-gray-300'}`}
                     />
                     <button type="submit" className="w-full sm:w-auto px-4 py-2 bg-indigo-600 text-white font-semibold rounded-md shadow-sm hover:bg-indigo-700">
                         Check
@@ -66,7 +66,7 @@ const PuzzleRenderer = ({ activity }: { activity: PuzzleActivity }) => {
             )}
 
             {!isDone && (
-                <button onClick={() => setRevealed(true)} className="text-xs text-gray-500 hover:underline mt-2">
+                <button onClick={() => setRevealed(true)} className="text-xs text-gray-500 hover:underline mt-2 dark:text-gray-400">
                     Reveal Answer
                 </button>
             )}
@@ -80,8 +80,8 @@ const PuzzleRenderer = ({ activity }: { activity: PuzzleActivity }) => {
 
 const SuggestionRenderer = ({ activity }: { activity: SuggestionActivity }) => (
     <div className="text-center">
-        <h3 className="text-xl font-bold text-indigo-800 mb-2">{activity.title}</h3>
-        <p className="text-gray-700">{activity.description}</p>
+        <h3 className="text-xl font-bold text-indigo-800 dark:text-indigo-300 mb-2">{activity.title}</h3>
+        <p className="text-gray-700 dark:text-gray-300">{activity.description}</p>
     </div>
 );
 
@@ -122,10 +122,10 @@ export const BreakActivities: React.FC = () => {
 
     return (
         <div className="h-full flex flex-col items-center justify-center text-center p-4">
-            <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg max-w-lg w-full">
+            <div className="bg-white dark:bg-gray-800 p-6 sm:p-8 rounded-2xl shadow-lg max-w-lg w-full">
                 <CoffeeIcon className="w-16 h-16 mx-auto text-indigo-500 mb-4" />
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">Time for a Break?</h2>
-                <p className="text-gray-600 mb-6">
+                <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">Time for a Break?</h2>
+                <p className="text-gray-600 dark:text-gray-400 mb-6">
                     Choose a break type, and I'll suggest a fun, refreshing activity.
                 </p>
 
@@ -137,7 +137,7 @@ export const BreakActivities: React.FC = () => {
                             className={`px-4 py-2 rounded-full font-medium text-sm transition-colors ${
                                 selectedCategory === type
                                 ? 'bg-indigo-600 text-white'
-                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                                : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600'
                             }`}
                         >
                             {name}
@@ -163,7 +163,7 @@ export const BreakActivities: React.FC = () => {
                 {error && <p className="text-red-500 mt-4">{error}</p>}
 
                 {suggestion && !isLoading && (
-                    <div className="mt-8 p-6 bg-indigo-50 border border-indigo-200 rounded-lg animate-fade-in">
+                    <div className="mt-8 p-6 bg-indigo-50 dark:bg-gray-900/50 border border-indigo-200 dark:border-gray-700 rounded-lg animate-fade-in">
                         {renderSuggestion()}
                     </div>
                 )}

@@ -30,26 +30,54 @@ export const CustomReminders: React.FC<{ userId: string }> = ({ userId }) => {
     }, [fetchReminders]);
     
     useEffect(() => {
-        const interval = setInterval(() => {
-            if (permission === 'granted') {
-                const now = new Date();
-                const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+        if (permission !== 'granted') {
+            // No need to run the interval if we don't have permission.
+            return;
+        }
+
+        const intervalId = setInterval(() => {
+            const now = new Date();
+            const currentTime = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+            
+            setReminders(currentReminders => {
+                const triggeredReminders: CustomReminder[] = [];
                 
-                reminders.forEach(reminder => {
+                const remainingReminders = currentReminders.filter(reminder => {
                     if (reminder.time === currentTime) {
+                        triggeredReminders.push(reminder);
+                        return false; // This will remove the reminder from the state
+                    }
+                    return true;
+                });
+
+                if (triggeredReminders.length > 0) {
+                    triggeredReminders.forEach(reminder => {
                         new Notification('Schedulify Reminder', {
                             body: reminder.message,
-                            icon: '/vite.svg', // Optional: Add an icon
+                            icon: '/vite.svg',
                         });
-                        // Once triggered, remove it
-                        handleDelete(reminder.id);
-                    }
-                });
-            }
+                        
+                        // Asynchronously delete from Firestore, and handle potential errors.
+                        deleteReminder(userId, reminder.id)
+                            .catch(err => {
+                                console.error("Failed to delete triggered reminder from Firestore:", err);
+                                // This toast is important for user feedback if DB fails
+                                addToast(`Failed to clear reminder: ${reminder.message}`, 'error');
+                            });
+                    });
+                    // Only return a new array if something changed, to prevent unnecessary re-renders.
+                    return remainingReminders;
+                }
+                
+                // If no reminders were triggered, return the original array to avoid re-renders.
+                return currentReminders;
+            });
+
         }, 60000); // Check every minute
 
-        return () => clearInterval(interval);
-    }, [reminders, permission]);
+        // Cleanup function to clear the interval when the component unmounts or deps change.
+        return () => clearInterval(intervalId);
+    }, [permission, userId, addToast]);
 
 
     const requestPermission = async () => {
@@ -99,8 +127,8 @@ export const CustomReminders: React.FC<{ userId: string }> = ({ userId }) => {
     };
     
     return (
-        <div className="bg-white p-6 rounded-xl shadow-md h-full flex flex-col">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Custom Reminders</h2>
+        <div className="bg-white dark:bg-gray-800/50 p-6 rounded-xl shadow-md h-full flex flex-col">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">Custom Reminders</h2>
 
             {permission !== 'granted' && (
                 <div className="mb-4 p-3 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 rounded-md">
@@ -116,25 +144,25 @@ export const CustomReminders: React.FC<{ userId: string }> = ({ userId }) => {
             
             <form onSubmit={handleAdd} className="space-y-4 mb-6">
                 <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700">Reminder Message</label>
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Reminder Message</label>
                     <input
                         id="message"
                         type="text"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder="e.g., Drink water"
-                        className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 placeholder-gray-400"
+                        className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 placeholder-gray-400 dark:bg-gray-900 dark:border-gray-600 dark:text-white"
                     />
                 </div>
                 <div className="flex items-end gap-2">
                     <div className="flex-grow">
-                        <label htmlFor="time" className="block text-sm font-medium text-gray-700">Time</label>
+                        <label htmlFor="time" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Time</label>
                         <input
                             id="time"
                             type="time"
                             value={time}
                             onChange={(e) => setTime(e.target.value)}
-                            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900"
+                            className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 text-gray-900 dark:bg-gray-900 dark:border-gray-600 dark:text-white dark:[color-scheme:dark]"
                         />
                     </div>
                     <button
@@ -149,24 +177,24 @@ export const CustomReminders: React.FC<{ userId: string }> = ({ userId }) => {
             {error && <p className="text-sm text-red-600 mb-4">{error}</p>}
             
             <div className="flex-grow overflow-y-auto">
-                <h3 className="text-lg font-bold mb-3 text-gray-800">Active Reminders</h3>
+                <h3 className="text-lg font-bold mb-3 text-gray-800 dark:text-gray-200">Active Reminders</h3>
                 {isLoading ? (
                     <div className="flex justify-center items-center p-8">
                         <LoaderIcon className="w-8 h-8 animate-spin text-indigo-500" />
                     </div>
                 ) : reminders.length === 0 ? (
-                    <p className="text-gray-500">You have no active reminders.</p>
+                    <p className="text-gray-500 dark:text-gray-400">You have no active reminders.</p>
                 ) : (
                     <ul className="space-y-2">
                         {reminders.sort((a,b) => a.time.localeCompare(b.time)).map(reminder => (
-                            <li key={reminder.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <li key={reminder.id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
                                 <div>
-                                    <p className="font-semibold text-gray-800">{reminder.message}</p>
-                                    <span className="text-sm text-gray-600">{reminder.time}</span>
+                                    <p className="font-semibold text-gray-800 dark:text-gray-200">{reminder.message}</p>
+                                    <span className="text-sm text-gray-600 dark:text-gray-400">{reminder.time}</span>
                                 </div>
                                 <button
                                     onClick={() => handleDelete(reminder.id)}
-                                    className="text-gray-400 hover:text-red-500"
+                                    className="text-gray-400 hover:text-red-500 dark:text-gray-500 dark:hover:text-red-400"
                                     aria-label="Delete reminder"
                                 >
                                     <XIcon className="w-5 h-5" />

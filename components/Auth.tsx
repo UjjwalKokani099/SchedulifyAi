@@ -19,7 +19,7 @@ const AuthButton = ({ onClick, icon, children, disabled = false, title = '' }: {
         onClick={onClick}
         disabled={disabled}
         title={title}
-        className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600"
     >
         {icon}
         {children}
@@ -68,14 +68,14 @@ const EmailAuthForm: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
     return (
         <form onSubmit={handleSubmit} className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-800">{isSignUp ? 'Sign Up with Email' : 'Sign In with Email'}</h2>
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200">{isSignUp ? 'Sign Up with Email' : 'Sign In with Email'}</h2>
             <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email Address</label>
-                <input type="email" id="email" value={email} onChange={e => setEmail(e.target.value)} required className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Email Address</label>
+                <input type="email" id="email" value={email} onChange={e => setEmail(e.target.value)} required className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-900 dark:border-gray-600 dark:text-white" />
             </div>
             <div>
-                <label htmlFor="password"className="block text-sm font-medium text-gray-700">Password</label>
-                <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} required className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                <label htmlFor="password"className="block text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} required className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-900 dark:border-gray-600 dark:text-white" />
             </div>
             {error && <p className="text-sm text-red-600 whitespace-pre-wrap">{error}</p>}
             <div>
@@ -84,12 +84,12 @@ const EmailAuthForm: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 </button>
             </div>
             <div className="text-center">
-                <button type="button" onClick={() => setIsSignUp(!isSignUp)} className="text-sm text-indigo-600 hover:underline">
+                <button type="button" onClick={() => setIsSignUp(!isSignUp)} className="text-sm text-indigo-600 hover:underline dark:text-indigo-400">
                     {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
                 </button>
             </div>
             <div className="text-center">
-                <button type="button" onClick={onBack} className="text-sm text-gray-600 hover:underline">
+                <button type="button" onClick={onBack} className="text-sm text-gray-600 hover:underline dark:text-gray-400">
                     &larr; Other sign-in options
                 </button>
             </div>
@@ -179,10 +179,10 @@ const PhoneAuthForm: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     if (step === 'otp') {
         return (
             <form onSubmit={handleOtpSubmit} className="space-y-6">
-                <h2 className="text-2xl font-bold text-gray-800">Verify OTP</h2>
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Verify OTP</h2>
                  <div>
-                    <label htmlFor="otp" className="block text-sm font-medium text-gray-700">One-Time Password</label>
-                    <input type="text" id="otp" value={otp} onChange={(e) => setOtp(e.target.value)} placeholder="Enter the 6-digit code" maxLength={6} className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required />
+                    <label htmlFor="otp" className="block text-sm font-medium text-gray-700 dark:text-gray-300">One-Time Password</label>
+                    <input type="text" id="otp" value={otp} onChange={(e) => setOtp(e.target.value)} placeholder="Enter the 6-digit code" maxLength={6} className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-900 dark:border-gray-600 dark:text-white" required />
                 </div>
                  {error && <p className="text-sm text-red-600 whitespace-pre-wrap">{error}</p>}
                 <div>
@@ -191,7 +191,7 @@ const PhoneAuthForm: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                     </button>
                 </div>
                  <div className="text-center">
-                    <button type="button" onClick={onBack} className="text-sm text-gray-600 hover:underline">
+                    <button type="button" onClick={onBack} className="text-sm text-gray-600 hover:underline dark:text-gray-400">
                         &larr; Other sign-in options
                     </button>
                 </div>
@@ -201,12 +201,12 @@ const PhoneAuthForm: React.FC<{ onBack: () => void }> = ({ onBack }) => {
 
     return (
         <form onSubmit={handlePhoneSubmit} className="space-y-6">
-            <h2 className="text-2xl font-bold text-gray-800">Sign In with Phone</h2>
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200">Sign In with Phone</h2>
             <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone Number</label>
+                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Phone Number</label>
                 <div className="mt-1 flex rounded-md shadow-sm">
-                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm">+91</span>
-                    <input type="tel" id="phone" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ''))} placeholder="9876543210" maxLength={10} className="flex-1 block w-full px-4 py-2 border border-gray-300 rounded-none rounded-r-md focus:ring-indigo-500 focus:border-indigo-500" required />
+                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm dark:bg-gray-600 dark:border-gray-500 dark:text-gray-400">+91</span>
+                    <input type="tel" id="phone" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value.replace(/\D/g, ''))} placeholder="9876543210" maxLength={10} className="flex-1 block w-full px-4 py-2 border border-gray-300 rounded-none rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-900 dark:border-gray-600 dark:text-white" required />
                 </div>
             </div>
             {error && <p className="text-sm text-red-600 whitespace-pre-wrap">{error}</p>}
@@ -216,7 +216,7 @@ const PhoneAuthForm: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                 </button>
             </div>
             <div className="text-center">
-                <button type="button" onClick={onBack} className="text-sm text-gray-600 hover:underline">
+                <button type="button" onClick={onBack} className="text-sm text-gray-600 hover:underline dark:text-gray-400">
                     &larr; Other sign-in options
                 </button>
             </div>
@@ -260,7 +260,7 @@ export const Auth: React.FC = () => {
             default:
                 return (
                     <div className="space-y-6">
-                        <h2 className="text-2xl font-bold text-gray-800 text-center">Sign In or Sign Up</h2>
+                        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-200 text-center">Sign In or Sign Up</h2>
                         <div className="space-y-3">
                             <AuthButton 
                                 onClick={handleGoogleSignIn} 
@@ -274,15 +274,15 @@ export const Auth: React.FC = () => {
                         </div>
                         <div className="relative">
                             <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-gray-300" />
+                                <div className="w-full border-t border-gray-300 dark:border-gray-600" />
                             </div>
                             <div className="relative flex justify-center text-sm">
-                                <span className="px-2 bg-white text-gray-500">OR</span>
+                                <span className="px-2 bg-white text-gray-500 dark:bg-gray-800 dark:text-gray-400">OR</span>
                             </div>
                         </div>
                          <button
                             onClick={() => setAuthMethod('phone')}
-                            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-700 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-700 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:bg-gray-800 dark:hover:bg-gray-700"
                          >
                             Sign In with Phone Number
                         </button>
@@ -293,14 +293,14 @@ export const Auth: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 flex flex-col justify-center items-center p-4">
+        <div className="min-h-screen bg-white dark:bg-gray-900 flex flex-col justify-center items-center p-4">
             <div className="max-w-md w-full mx-auto">
                 <div className="text-center mb-8">
                     <SchedulifyLogoIcon className="mx-auto h-16 w-16" />
-                    <h1 className="text-4xl font-extrabold text-gray-900 mt-4">Welcome to Schedulify AI</h1>
-                    <p className="mt-2 text-lg text-gray-600">Sign in to continue to your personal study planner.</p>
+                    <h1 className="text-4xl font-extrabold text-gray-900 dark:text-gray-100 mt-4">Welcome to Schedulify AI</h1>
+                    <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">Sign in to continue to your personal study planner.</p>
                 </div>
-                <div className="bg-white p-8 rounded-2xl shadow-lg">
+                <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg">
                     {renderContent()}
                 </div>
             </div>

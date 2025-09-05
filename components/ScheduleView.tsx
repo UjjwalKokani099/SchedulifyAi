@@ -12,9 +12,9 @@ const activityStyles: { [key in ScheduleItem['activity']]: { badge: string; base
 };
 
 const statusStyles: { [key in ScheduleItem['status']]: { cardBg: string; cardBorder: string; textClass: string; } } = {
-    'Not Started': { cardBg: 'bg-white', cardBorder: 'border-gray-200', textClass: 'text-gray-900' },
-    'In Progress': { cardBg: 'bg-amber-50', cardBorder: 'border-amber-300', textClass: 'text-gray-900' },
-    'Completed': { cardBg: 'bg-green-50', cardBorder: 'border-green-400', textClass: 'line-through text-gray-500' },
+    'Not Started': { cardBg: 'bg-white dark:bg-gray-800', cardBorder: 'border-gray-200 dark:border-gray-700', textClass: 'text-gray-900 dark:text-gray-100' },
+    'In Progress': { cardBg: 'bg-amber-50 dark:bg-amber-900/40', cardBorder: 'border-amber-300 dark:border-amber-700', textClass: 'text-gray-900 dark:text-gray-100' },
+    'Completed': { cardBg: 'bg-green-50 dark:bg-green-900/40', cardBorder: 'border-green-400 dark:border-green-700', textClass: 'line-through text-gray-500 dark:text-gray-400' },
 };
 
 
@@ -34,7 +34,7 @@ const ScheduleCard = ({ item, onStatusChange, onToggleImportant, onOpenHub, isCl
     const statusStyle = statusStyles[item.status];
 
     const cardClasses = item.important && item.status !== 'Completed'
-        ? `bg-amber-100 border-amber-400`
+        ? `bg-amber-100 border-amber-400 dark:bg-amber-900/60 dark:border-amber-600`
         : `${statusStyle.cardBg} ${statusStyle.cardBorder}`;
     
     return (
@@ -48,13 +48,13 @@ const ScheduleCard = ({ item, onStatusChange, onToggleImportant, onOpenHub, isCl
                     </p>
                     <button
                         onClick={onToggleImportant}
-                        className="text-gray-400 hover:text-amber-500 flex-shrink-0 ml-2 p-1 -mt-1 -mr-1"
+                        className="text-gray-400 hover:text-amber-500 dark:text-gray-500 dark:hover:text-amber-400 flex-shrink-0 ml-2 p-1 -mt-1 -mr-1"
                         aria-label={item.important ? 'Remove importance' : 'Mark as important'}
                     >
-                        <StarIcon className={item.important ? 'w-5 h-5 text-amber-500' : 'w-5 h-5'} filled={item.important} />
+                        <StarIcon className={item.important ? 'w-5 h-5 text-amber-500 dark:text-amber-400' : 'w-5 h-5'} filled={item.important} />
                     </button>
                 </div>
-                <p className="text-xs text-gray-600">{item.subject}</p>
+                <p className="text-xs text-gray-600 dark:text-gray-400">{item.subject}</p>
             </div>
              <div className="mt-3 flex items-center justify-between">
                 <ActivityBadge activity={item.activity} />
@@ -62,7 +62,7 @@ const ScheduleCard = ({ item, onStatusChange, onToggleImportant, onOpenHub, isCl
                     {isClass10 && ['Study', 'Revise', 'Practice'].includes(item.activity) && (
                         <button
                             onClick={onOpenHub}
-                            className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 px-2 py-1 rounded hover:bg-indigo-100 transition-colors"
+                            className="text-xs font-semibold text-indigo-600 hover:text-indigo-800 px-2 py-1 rounded hover:bg-indigo-100 transition-colors dark:text-indigo-400 dark:hover:bg-indigo-900/50"
                             title="Open Study Hub"
                         >
                            Hub
@@ -71,7 +71,7 @@ const ScheduleCard = ({ item, onStatusChange, onToggleImportant, onOpenHub, isCl
                     <select
                         value={item.status}
                         onChange={(e) => onStatusChange(e.target.value as ScheduleItem['status'])}
-                        className="text-xs rounded border-gray-500 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-gray-700 text-white"
+                        className="text-xs rounded border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-white text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-200"
                         aria-label="Change status"
                     >
                         <option value="Not Started">Not Started</option>
@@ -141,14 +141,14 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({ schedule, goal, onSc
 
   return (
     <>
-    <div className="bg-white p-4 sm:p-6 rounded-xl shadow-md h-full flex flex-col">
-      <h2 className="text-2xl font-bold text-gray-900 mb-4 flex-shrink-0">Your Weekly Timetable</h2>
-      <div className="flex-grow overflow-auto border border-gray-200 rounded-lg">
+    <div className="bg-white dark:bg-gray-800/50 p-4 sm:p-6 rounded-xl shadow-md h-full flex flex-col">
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4 flex-shrink-0">Your Weekly Timetable</h2>
+      <div className="flex-grow overflow-auto border border-gray-200 dark:border-gray-700 rounded-lg">
         <div className="grid grid-cols-[auto_repeat(7,1fr)] min-w-[1200px]">
             {/* Header Row */}
-            <div className="sticky top-0 left-0 bg-gray-100 z-20"></div> {/* Corner */}
+            <div className="sticky top-0 left-0 bg-gray-50 dark:bg-gray-900 z-20"></div> {/* Corner */}
             {daysOfWeek.map(day => (
-                 <div key={day} className="text-center font-bold text-gray-600 sticky top-0 bg-gray-100 z-10 p-3 border-b-2 border-gray-200">
+                 <div key={day} className="text-center font-bold text-gray-600 dark:text-gray-300 sticky top-0 bg-gray-50 dark:bg-gray-900 z-10 p-3 border-b-2 border-gray-200 dark:border-gray-700">
                     {day}
                 </div>
             ))}
@@ -156,11 +156,11 @@ export const ScheduleView: React.FC<ScheduleViewProps> = ({ schedule, goal, onSc
             {/* Timetable Rows */}
             {timeSlots.map(timeSlot => (
                 <React.Fragment key={timeSlot}>
-                    <div className="text-right pr-4 py-3 font-bold text-sm text-gray-500 border-r-2 border-gray-200 sticky left-0 bg-gray-50 z-10">
+                    <div className="text-right pr-4 py-3 font-bold text-sm text-gray-500 dark:text-gray-400 border-r-2 border-gray-200 dark:border-gray-700 sticky left-0 bg-white dark:bg-gray-800 z-10">
                         {timeSlot.replace(/\s*-\s*/, '-').replace(/ /g, '\u00A0')}
                     </div>
                     {daysOfWeek.map(day => (
-                        <div key={`${day}-${timeSlot}`} className="border-b border-r border-gray-200 p-2 bg-gray-50/50 min-h-[140px]">
+                        <div key={`${day}-${timeSlot}`} className="border-b border-r border-gray-200 dark:border-gray-700 p-2 bg-white dark:bg-gray-800/50 min-h-[140px]">
                             {scheduleGrid[timeSlot][day] ? (
                                 <ScheduleCard 
                                     item={scheduleGrid[timeSlot][day]!}

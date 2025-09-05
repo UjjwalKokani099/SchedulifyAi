@@ -175,10 +175,23 @@ export const getTopicResources = async (subject: string, topic: string): Promise
 
 let chatInstance: Chat | null = null;
 
-const getChatInstance = () => {
+export const clearChatInstance = () => {
+    chatInstance = null;
+};
+
+
+const getChatInstance = (history: ChatMessage[], customKnowledge: string[]) => {
     if (!chatInstance) {
+        const knowledgePrompt = customKnowledge.length > 0
+            ? `\n\nAdditionally, the user has provided the following critical information for you to remember and use in all your responses:\n- ${customKnowledge.join('\n- ')}`
+            : '';
+
         chatInstance = ai.chats.create({
             model: 'gemini-2.5-flash',
+            history: history.map(msg => ({
+                role: msg.role,
+                parts: msg.parts.map(p => ({ text: p.text })),
+            })),
             config: {
                 systemInstruction: `You are Schedulify AI, a supportive, engaging, and motivating chatbot tutor.
                 Your primary roles are:
@@ -186,24 +199,25 @@ const getChatInstance = () => {
                 2.  **Resource Finder:** If a student is struggling, use Google Search to find and recommend the best FREE learning resources like specific YouTube videos, Khan Academy pages, or open courseware. ALWAYS provide the source URLs.
                 3.  **Motivator:** Be a study buddy! Use encouraging language. If a student says they're feeling tired or unmotivated, respond with a short motivational quote or a quick study tip. Remind them of their goals.
                 4.  **Planner:** Answer questions about the study schedule and suggest adjustments if the student feels overwhelmed.
-                5. **Gamification**: If asked, suggest fun ways to study, like turning revision into a game or a challenge.`,
+                5. **Gamification**: If asked, suggest fun ways to study, like turning revision into a game or a challenge.${knowledgePrompt}`,
             },
         });
     }
     return chatInstance;
 };
 
-export const getChatbotResponseStream = async (history: ChatMessage[], newMessage: string) => {
-    const chat = getChatInstance();
-
+export const getChatbotResponseStream = async (history: ChatMessage[], newMessage: string, customKnowledge: string[]) => {
     // Check if the user is asking for resources to decide whether to use search grounding
     const isResourceRequest = /resources|videos|articles|courses|explain|help with/i.test(newMessage);
 
     if (isResourceRequest) {
+        const knowledgePrompt = customKnowledge.length > 0
+            ? `\n\nRemember this user-provided context: "${customKnowledge.join(', ')}"`
+            : '';
         // Use one-off generateContent with googleSearch for resource-heavy requests
         const response = await ai.models.generateContent({
             model: "gemini-2.5-flash",
-            contents: `Based on our conversation history and my system instructions, answer this user message: "${newMessage}"`,
+            contents: `Based on our conversation history and my system instructions, answer this user message: "${newMessage}".${knowledgePrompt}`,
             config: {
                 tools: [{ googleSearch: {} }],
             },
@@ -221,6 +235,7 @@ export const getChatbotResponseStream = async (history: ChatMessage[], newMessag
 
     } else {
          // Use the standard chat instance for conversational flow
+        const chat = getChatInstance(history.slice(0, -1), customKnowledge);
         const result = await chat.sendMessageStream({ message: newMessage });
 
         return {

@@ -5,8 +5,8 @@ import { onAuthStateChangedListener, initFirebase, getRedirectResult } from './s
 import { SplashScreen } from './components/SplashScreen';
 import { GoalSetup } from './components/GoalSetup';
 import { generateStudySchedule } from './services/geminiService';
-import type { StudyGoal, ScheduleItem } from './types';
-import type { User } from 'firebase/auth';
+// Fix: Replaced direct import from 'firebase/auth' with the centralized User type from './types'.
+import type { StudyGoal, ScheduleItem, User } from './types';
 
 type AppView = 'loading' | 'auth' | 'goalSetup' | 'generatingSchedule' | 'dashboard' | 'error';
 
@@ -87,6 +87,12 @@ const App: React.FC = () => {
     setSchedule(newSchedule);
   };
 
+  const handleUserUpdate = (updatedData: Partial<User>) => {
+    if (user) {
+        setUser(currentUser => currentUser ? { ...currentUser, ...updatedData } : null);
+    }
+  };
+
 
   const handleSignOutAndReset = () => {
     setGoal(null);
@@ -118,6 +124,7 @@ const App: React.FC = () => {
                     goal={goal} 
                     schedule={schedule}
                     onScheduleUpdate={handleScheduleUpdate}
+                    onUserUpdate={handleUserUpdate}
                  />;
         }
         // If state is inconsistent, reset

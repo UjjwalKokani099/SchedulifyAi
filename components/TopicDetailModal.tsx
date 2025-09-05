@@ -7,7 +7,7 @@ const HubTab = ({ label, icon: Icon, isActive, onClick }: { label: string, icon:
     <button
         onClick={onClick}
         className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-            isActive ? 'bg-indigo-100 text-indigo-700' : 'text-gray-600 hover:bg-gray-100'
+            isActive ? 'bg-indigo-100 text-indigo-700 dark:bg-indigo-500/20 dark:text-indigo-300' : 'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700'
         }`}
     >
         <Icon className="w-5 h-5" />
@@ -43,18 +43,18 @@ const FlashcardViewer = ({ flashcards }: { flashcards: Flashcard[] }) => {
                     onClick={() => setIsFlipped(!isFlipped)}
                 >
                     {/* Front */}
-                    <div className="absolute w-full h-full backface-hidden bg-white border-2 border-indigo-300 rounded-xl flex items-center justify-center p-6 text-center cursor-pointer shadow-lg">
-                        <p className="text-xl font-semibold text-gray-800">{card.question}</p>
+                    <div className="absolute w-full h-full backface-hidden bg-white dark:bg-gray-700 border-2 border-indigo-300 dark:border-indigo-500 rounded-xl flex items-center justify-center p-6 text-center cursor-pointer shadow-lg">
+                        <p className="text-xl font-semibold text-gray-800 dark:text-gray-100">{card.question}</p>
                     </div>
                     {/* Back */}
-                    <div className="absolute w-full h-full backface-hidden bg-indigo-100 border-2 border-indigo-300 rounded-xl flex items-center justify-center p-6 text-center cursor-pointer shadow-lg rotate-y-180">
-                        <p className="text-lg text-gray-700">{card.answer}</p>
+                    <div className="absolute w-full h-full backface-hidden bg-indigo-100 dark:bg-indigo-900/50 border-2 border-indigo-300 dark:border-indigo-500 rounded-xl flex items-center justify-center p-6 text-center cursor-pointer shadow-lg rotate-y-180">
+                        <p className="text-lg text-gray-700 dark:text-gray-200">{card.answer}</p>
                     </div>
                 </div>
             </div>
             <div className="flex items-center justify-between w-full max-w-lg">
-                <button onClick={prevCard} className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50">Previous</button>
-                <span className="text-sm font-medium text-gray-600">{currentIndex + 1} / {flashcards.length}</span>
+                <button onClick={prevCard} className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 dark:bg-gray-600 dark:text-gray-200 dark:border-gray-500 dark:hover:bg-gray-500">Previous</button>
+                <span className="text-sm font-medium text-gray-600 dark:text-gray-400">{currentIndex + 1} / {flashcards.length}</span>
                 <button onClick={nextCard} className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-lg shadow-sm hover:bg-indigo-700">Next</button>
             </div>
         </div>
@@ -99,8 +99,8 @@ export const TopicDetailModal: React.FC<{ item: ScheduleItem, onClose: () => voi
             return score + (quizAnswers[index] === question.correctAnswer ? 1 : 0);
         }, 0);
         return (
-            <div className="mt-4 p-4 bg-indigo-50 rounded-lg text-center">
-                <p className="font-bold text-lg text-indigo-800">
+            <div className="mt-4 p-4 bg-indigo-50 dark:bg-indigo-900/50 rounded-lg text-center">
+                <p className="font-bold text-lg text-indigo-800 dark:text-indigo-300">
                     You scored {correctAnswers} out of {resources.quiz.length}!
                 </p>
             </div>
@@ -109,14 +109,14 @@ export const TopicDetailModal: React.FC<{ item: ScheduleItem, onClose: () => voi
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex justify-center items-center z-50 p-4">
-            <div className="bg-white rounded-2xl shadow-xl w-full max-w-3xl max-h-[90vh] flex flex-col">
+            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-3xl max-h-[90vh] flex flex-col">
                 {/* Header */}
-                <div className="p-4 sm:p-6 border-b flex justify-between items-center flex-shrink-0">
+                <div className="p-4 sm:p-6 border-b dark:border-gray-700 flex justify-between items-center flex-shrink-0">
                     <div>
-                        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">{item.topic}</h2>
-                        <p className="text-gray-600 text-sm">{item.subject} - Study Hub</p>
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 dark:text-gray-100">{item.topic}</h2>
+                        <p className="text-gray-600 dark:text-gray-400 text-sm">{item.subject} - Study Hub</p>
                     </div>
-                    <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+                    <button onClick={onClose} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                         <XIcon className="w-6 h-6" />
                     </button>
                 </div>
@@ -124,7 +124,7 @@ export const TopicDetailModal: React.FC<{ item: ScheduleItem, onClose: () => voi
                 {/* Body */}
                 <div className="p-4 sm:p-6 overflow-y-auto flex-grow">
                     {isLoading && (
-                        <div className="flex flex-col items-center justify-center h-full text-gray-500">
+                        <div className="flex flex-col items-center justify-center h-full text-gray-500 dark:text-gray-400">
                             <LoaderIcon className="w-10 h-10 animate-spin text-indigo-500 mb-4" />
                             <p>Finding the best resources for you...</p>
                         </div>
@@ -137,7 +137,7 @@ export const TopicDetailModal: React.FC<{ item: ScheduleItem, onClose: () => voi
                     )}
                     {resources && !isLoading && (
                        <div>
-                            <div className="flex items-center gap-2 border-b mb-4 pb-2">
+                            <div className="flex items-center gap-2 border-b dark:border-gray-700 mb-4 pb-2">
                                 <HubTab label="Resources" icon={FileTextIcon} isActive={activeHubTab === 'Resources'} onClick={() => setActiveHubTab('Resources')} />
                                 <HubTab label="Quiz" icon={LightbulbIcon} isActive={activeHubTab === 'Quiz'} onClick={() => setActiveHubTab('Quiz')} />
                                 <HubTab label="Flashcards" icon={LayersIcon} isActive={activeHubTab === 'Flashcards'} onClick={() => setActiveHubTab('Flashcards')} />
@@ -146,26 +146,26 @@ export const TopicDetailModal: React.FC<{ item: ScheduleItem, onClose: () => voi
                             {activeHubTab === 'Resources' && (
                                 <div className="space-y-8">
                                     <section>
-                                        <h3 className="text-lg font-semibold text-indigo-700 mb-3 flex items-center gap-2">
+                                        <h3 className="text-lg font-semibold text-indigo-700 dark:text-indigo-400 mb-3 flex items-center gap-2">
                                             <YoutubeIcon className="w-5 h-5" /> Recommended Videos
                                         </h3>
                                         <ul className="space-y-2">
                                             {resources.videos.map((video, i) => (
-                                                <li key={i} className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                                                    <a href={video.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline font-medium">{video.title}</a>
+                                                <li key={i} className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors dark:bg-gray-700/50 dark:hover:bg-gray-700">
+                                                    <a href={video.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline font-medium dark:text-blue-400">{video.title}</a>
                                                 </li>
                                             ))}
                                         </ul>
                                     </section>
                                     
                                     <section>
-                                        <h3 className="text-lg font-semibold text-indigo-700 mb-3 flex items-center gap-2">
+                                        <h3 className="text-lg font-semibold text-indigo-700 dark:text-indigo-400 mb-3 flex items-center gap-2">
                                             <FileTextIcon className="w-5 h-5" /> Study Notes & Articles
                                         </h3>
                                         <ul className="space-y-2">
                                             {resources.notes.map((note, i) => (
-                                                <li key={i} className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
-                                                    <a href={note.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline font-medium">{note.title}</a>
+                                                <li key={i} className="p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors dark:bg-gray-700/50 dark:hover:bg-gray-700">
+                                                    <a href={note.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline font-medium dark:text-blue-400">{note.title}</a>
                                                 </li>
                                             ))}
                                         </ul>
@@ -177,7 +177,7 @@ export const TopicDetailModal: React.FC<{ item: ScheduleItem, onClose: () => voi
                                 <section>
                                     <div className="space-y-4">
                                         {resources.quiz.map((q, qIndex) => (
-                                            <div key={qIndex} className="p-4 border rounded-lg">
+                                            <div key={qIndex} className="p-4 border dark:border-gray-700 rounded-lg">
                                                 <p className="font-semibold mb-3">{qIndex + 1}. {q.question}</p>
                                                 <div className="space-y-2">
                                                     {q.options.map((option, oIndex) => {
@@ -188,15 +188,15 @@ export const TopicDetailModal: React.FC<{ item: ScheduleItem, onClose: () => voi
                                                         if (isQuizSubmitted) {
                                                             optionClasses += " cursor-default";
                                                             if (isCorrect) {
-                                                                optionClasses += " bg-green-100 border-green-300 text-green-900 font-semibold";
+                                                                optionClasses += " bg-green-100 border-green-300 text-green-900 font-semibold dark:bg-green-900/50 dark:border-green-700 dark:text-green-300";
                                                             } else if (isSelected && !isCorrect) {
-                                                                optionClasses += " bg-red-100 border-red-300 text-red-900 line-through";
+                                                                optionClasses += " bg-red-100 border-red-300 text-red-900 line-through dark:bg-red-900/50 dark:border-red-700 dark:text-red-300";
                                                             } else {
-                                                                 optionClasses += " bg-gray-50 border-gray-200 text-gray-600";
+                                                                 optionClasses += " bg-gray-50 border-gray-200 text-gray-600 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-400";
                                                             }
                                                         } else {
                                                             optionClasses += " cursor-pointer transition-colors";
-                                                            optionClasses += isSelected ? " bg-indigo-100 border-indigo-400 ring-2 ring-indigo-300" : " bg-white hover:bg-gray-50";
+                                                            optionClasses += isSelected ? " bg-indigo-100 border-indigo-400 ring-2 ring-indigo-300 dark:bg-indigo-900/50 dark:border-indigo-500" : " bg-white hover:bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:hover:bg-gray-600";
                                                         }
                                                         
                                                         return (

@@ -83,7 +83,7 @@ export const PomodoroTimer: React.FC<{ userId: string }> = ({ userId }) => {
   const ModeButton = ({ buttonMode, text }: { buttonMode: Mode, text: string }) => (
       <button 
         onClick={() => switchMode(buttonMode)}
-        className={`px-4 py-2 rounded-md font-medium text-sm transition-colors ${mode === buttonMode ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}
+        className={`px-4 py-2 rounded-md font-medium text-sm transition-colors ${mode === buttonMode ? 'bg-indigo-600 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600'}`}
       >
         {text}
       </button>
@@ -92,8 +92,8 @@ export const PomodoroTimer: React.FC<{ userId: string }> = ({ userId }) => {
   const currentTheme = MODE_SETTINGS[mode];
 
   return (
-    <div className={`p-6 sm:p-8 rounded-2xl shadow-lg flex flex-col items-center bg-white`}>
-      <div className="bg-gray-100 p-2 rounded-lg flex items-center gap-2 mb-8">
+    <div className={`p-6 sm:p-8 rounded-2xl shadow-lg flex flex-col items-center bg-white dark:bg-gray-800/50`}>
+      <div className="bg-gray-100 dark:bg-gray-900/50 p-2 rounded-lg flex items-center gap-2 mb-8">
         <ModeButton buttonMode="pomodoro" text="Pomodoro" />
         <ModeButton buttonMode="shortBreak" text="Short Break" />
         <ModeButton buttonMode="longBreak" text="Long Break" />
@@ -103,7 +103,7 @@ export const PomodoroTimer: React.FC<{ userId: string }> = ({ userId }) => {
         {formatTime(timeLeft)}
       </div>
 
-      <p className="text-lg font-medium mb-8 text-gray-600">{currentTheme.title}</p>
+      <p className="text-lg font-medium mb-8 text-gray-600 dark:text-gray-400">{currentTheme.title}</p>
       
       <button
         onClick={toggleTimer}
@@ -113,7 +113,7 @@ export const PomodoroTimer: React.FC<{ userId: string }> = ({ userId }) => {
         {isActive ? <PauseIcon className="w-10 h-10"/> : <PlayIcon className="w-10 h-10 pl-2"/>}
       </button>
 
-      <div className="mt-8 text-lg text-gray-700">
+      <div className="mt-8 text-lg text-gray-700 dark:text-gray-300">
         Completed today: <span className="font-bold">{pomodoroCount}</span>
       </div>
     </div>
