@@ -16,25 +16,6 @@ export const initFirebase = async () => {
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
   }
-  
-  // Fix: Initialize Firebase App Check to resolve 'auth/firebase-app-check-token-is-invalid' error.
-  // This is necessary when App Check is enforced in the Firebase project.
-  const appCheckConfig = config.appCheck;
-  if (appCheckConfig && appCheckConfig.recaptchaV3SiteKey && !appCheckConfig.recaptchaV3SiteKey.includes("YOUR_")) {
-      try {
-        const appCheck = firebase.appCheck();
-        // Activate App Check with the reCAPTCHA v3 provider.
-        appCheck.activate(
-            new firebase.appCheck.ReCaptchaV3Provider(appCheckConfig.recaptchaV3SiteKey),
-            true // Automatic token refreshing.
-        );
-        console.log("Firebase App Check initialized successfully.");
-      } catch(err) {
-        console.error("Error initializing Firebase App Check:", err);
-      }
-  } else {
-      console.warn("Firebase App Check is not configured. Please add your reCAPTCHA v3 site key to `config.ts` to enable it.");
-  }
 
   dbInstance = firebase.firestore();
   
@@ -61,23 +42,6 @@ export const initFirebase = async () => {
 };
 
 export const db = () => dbInstance;
-
-export const setupRecaptchaVerifier = () => {
-    // It's important that the reCAPTCHA is rendered in a container that is always
-    // present in the DOM.
-    return new firebase.auth.RecaptchaVerifier('recaptcha-container', {
-      'size': 'invisible',
-      'callback': (response: any) => {
-        // reCAPTCHA solved, allow signInWithPhoneNumber.
-        console.log("reCAPTCHA solved");
-      }
-    });
-};
-
-export const signInWithPhoneNumber = (phoneNumber: string, appVerifier: any) => {
-    const auth = firebase.auth();
-    return auth.signInWithPhoneNumber(phoneNumber, appVerifier);
-};
 
 export const signInWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider();
